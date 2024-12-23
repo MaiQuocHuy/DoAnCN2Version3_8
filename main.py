@@ -1,16 +1,20 @@
-# This is a sample Python script.
+import os
+from PIL import Image
+import numpy as np
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+data = []
+labels = []
 
+DATA_DIR = './data'
+characters = os.listdir(DATA_DIR)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+for char in characters:
+    class_dir = os.path.join(DATA_DIR, char)
+    for filename in os.listdir(class_dir):
+        filepath = os.path.join(class_dir, filename)
+        img = Image.open(filepath).convert('RGB')
+        data.append(np.asarray(img))
+        labels.append(char)
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+data = np.asarray(data)  # Should work without errors
+print("Dataset shape:", data.shape)

@@ -1,11 +1,14 @@
 import os
 import cv2
+import random
+import string
 
 DATA_DIR = './data'
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
-number_of_classes = 3
+# Number of classes is 9
+# number_of_classes = 10
 dataset_size = 100
 
 # Test different indices if 2 does not work
@@ -14,12 +17,17 @@ if not cap.isOpened():
     print("Failed to open camera. Trying index 0 instead.")
     cap = cv2.VideoCapture(0)
 
-for j in range(number_of_classes):
-    class_dir = os.path.join(DATA_DIR, str(j))
+# List of letters 'A' to 'I' and numbers '1' to '9'
+# characters = list(string.ascii_uppercase[:5]) + [str(i) for i in range(1, 6)]
+characters = list(string.ascii_uppercase[:9]) + [str(i) for i in range(1, 6)]
+# print(len(characters[0]))
+# break
+for char in characters:
+    class_dir = os.path.join(DATA_DIR,char)
     if not os.path.exists(class_dir):
         os.makedirs(class_dir)
 
-    print('Collecting data for class {}'.format(j))
+    print(f'Collecting data for class {char}')
 
     while True:
         ret, frame = cap.read()
